@@ -25,9 +25,9 @@ pip install pymongo
 
 ## How to use
 1. uvicorn main:app --reload
-2. Once the server is running, you can access your API at http://localhost:8000.
-3. FastAPI generates automatic documentation for your API, which you can access at http://localhost:8000/docs or http://localhost:8000/redoc.
-4. You can test the endpoints using the Swagger UI at http://localhost:8000/docs.
+2. Once the server is running, you can access your API at http://localhost:8090.
+3. FastAPI generates automatic documentation for your API, which you can access at http://localhost:8090/docs or http://localhost:8090/redoc.
+4. You can test the endpoints using the Swagger UI at http://localhost:8090/docs.
    * Alternatively, you can use tools like curl, Postman, or any HTTP client to make requests to your API.
 
 
