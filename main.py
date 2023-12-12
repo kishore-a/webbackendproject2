@@ -136,3 +136,48 @@ async def get_books_count():
         return documents
     except PyMongoError as e:
         raise HTTPException(status_code=500, detail="Failed to retrieve counts from the database")
+
+@app.get("/bestsellers")
+async def get_bestsellers():
+    pipeline = [
+        {"$group": {"_id": "$title", "total_stock": {"$sum": "$stock"}}},
+        {"$sort": {"total_stock": -1}},
+        {"$limit": 5}
+    ]
+    try:
+        cursor = collection.aggregate(pipeline)
+        documents = []
+        while True:
+            try:
+                document = cursor.next()
+                documents.append(document)
+            except StopAsyncIteration:
+                break
+            except StopIteration:
+                break
+        return documents
+    except PyMongoError as e:
+        raise HTTPException(status_code=500, detail="Failed to retrieve bestsellers from the database")
+
+
+@app.get("/top-authors")
+async def get_top_authors():
+    pipeline = [
+        {"$group": {"_id": "$author", "book_count": {"$sum": 1}}},
+        {"$sort": {"book_count": -1}},
+        {"$limit": 5}
+    ]
+    try:
+        cursor = collection.aggregate(pipeline)
+        documents = []
+        while True:
+            try:
+                document = cursor.next()
+                documents.append(document)
+            except StopAsyncIteration:
+                break
+            except StopIteration:
+                break
+        return documents
+    except PyMongoError as e:
+        raise HTTPException(status_code=500, detail="Failed to top-authors  from the database")
